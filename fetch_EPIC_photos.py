@@ -1,10 +1,11 @@
 from dotenv import load_dotenv
 import os
 import requests
-from urllib.parse import urlparse
-import general_functions
+from general_functions import downloading_image
 
 
+load_dotenv()
+NASA_API = os.environ['NASA_API']
 def splitting_date_of_image(image):
     date = image['date']
     year = date.split('-')[0]
@@ -35,11 +36,3 @@ def downloading_EPIC_pictures(image_list):
         downloading_image('https://api.nasa.gov/EPIC/archive/natural/{0}/{1}/{2}/png/{3}.png?api_key={4}'.format(date_of_image[0], date_of_image[1], date_of_image[2], img['image'], NASA_API), 'images/{0}.jpg'.format(img['image']))
 
 
-if __name__ == '__main__':
-    load_dotenv()
-    NASA_API = os.environ['NASA_API']
-    img_list = fetch_EPIC_pictures()
-
-
-    creating_folder('images')
-    downloading_EPIC_pictures(img_list)

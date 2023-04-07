@@ -1,9 +1,11 @@
 from dotenv import load_dotenv
 import os
 import requests
-import general_functions
+from general_functions import downloading_image
 
 
+load_dotenv()
+NASA_API = os.environ['NASA_API']
 def fetch_pictures_of_the_day():
     payload={
 
@@ -22,9 +24,3 @@ def downloading_apod_image(images_list):
     for image in images_list:
         downloading_image(image['url'], 'images/nasa_apod_{}.jpg'.format(images_list.index(image)))
 
-if __name__ == '__main__':
-    load_dotenv()
-    NASA_API = os.environ['NASA_API']
-
-    creating_folder('images')
-    downloading_apod_image(fetch_pictures_of_the_day())

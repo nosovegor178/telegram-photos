@@ -1,5 +1,6 @@
 import os
 import requests
+from urllib.parse import urlparse
 
 
 def creating_folder(dir_name):
