@@ -2,11 +2,12 @@ from dotenv import load_dotenv
 import os
 import requests
 from general_functions import downloading_image
+import argparse
 
 
 load_dotenv()
 NASA_API = os.environ['NASA_API']
-def fetch_pictures_of_the_day():
+def fetch_pictures_of_the_day(directory):
     payload={
 
         'api_key' : NASA_API,
@@ -22,8 +23,13 @@ def fetch_pictures_of_the_day():
 
 def downloading_apod_image(images_list):
     for image in images_list:
-        downloading_image(image['url'], 'images/nasa_apod_{}.jpg'.format(images_list.index(image)))
+        downloading_image(image['url'], '{1}/nasa_apod_{0}.jpg'.format(images_list.index(image)), directory)
 
 if __name__ == '__main__':
-    pictures_list = fetch_pictures_of_the_day()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('directory', help='directory, where will placed pictures', default='images', nargs='?')
+    args = parser.parse_args()
+    
+    creating_folder(args.directory)
+    pictures_list = fetch_pictures_of_the_day(args.directory)
     downloading_apod_image(pictures_list)
