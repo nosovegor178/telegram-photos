@@ -26,8 +26,8 @@ def fetch_EPIC_pictures():
     url = 'https://api.nasa.gov/EPIC/api/natural/images'
     response = requests.get(url, params=payload)
     response.raise_for_status()
-    list = response.json()
-    return list
+    pct_list = response.json()
+    return pct_list
 
 
 def downloading_EPIC_pictures(image_list):
@@ -35,4 +35,5 @@ def downloading_EPIC_pictures(image_list):
         date_of_image = splitting_date_of_image(img)
         downloading_image('https://api.nasa.gov/EPIC/archive/natural/{0}/{1}/{2}/png/{3}.png?api_key={4}'.format(date_of_image[0], date_of_image[1], date_of_image[2], img['image'], NASA_API), 'images/{0}.jpg'.format(img['image']))
 
-
+image_list = fetch_EPIC_pictures()
+downloading_EPIC_pictures(image_list)

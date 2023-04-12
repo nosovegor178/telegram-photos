@@ -9,5 +9,7 @@ import os
 
 if __name__ == '__main__':
     load_dotenv()
+    directory = 'images'
     NASA_API = os.environ['NASA_API']
-    creating_folder('images')
+    creating_folder(directory)
+    
