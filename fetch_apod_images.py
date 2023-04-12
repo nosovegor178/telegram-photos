@@ -24,3 +24,6 @@ def downloading_apod_image(images_list):
     for image in images_list:
         downloading_image(image['url'], 'images/nasa_apod_{}.jpg'.format(images_list.index(image)))
 
+if __name__ == '__main__':
+    pictures_list = fetch_pictures_of_the_day()
+    downloading_apod_image(pictures_list)
