@@ -1,45 +1,48 @@
 from dotenv import load_dotenv
 import os
 import requests
-from general_functions import downloading_image
+import general_functions
+import argparse
+import os
 
 
-load_dotenv()
-NASA_API = os.environ['NASA_API']
-def splitting_date_of_image(image):
+def split_date_of_image(image):
     date = image['date']
     year = date.split('-')[0]
     month = date.split('-')[1]
     day = date.split('-')[2]
     split_day = day.split(' ')[0]
     date = [year, month, split_day]
+
     return date
 
 
-def fetch_EPIC_pictures():
+def fetch_EPIC_pictures(directory):
     payload={
-
-        'api_key' : NASA_API
-        
+        'api_key' : NASA_API_KEY
     }
     
     url = 'https://api.nasa.gov/EPIC/api/natural/images'
     response = requests.get(url, params=payload)
     response.raise_for_status()
-    pct_list = response.json()
-    return pct_list
+    EPIC_pictures = response.json()
 
-
-def downloading_EPIC_pictures(image_list, directory):
-    for img in image_list:
-        date_of_image = splitting_date_of_image(img)
-        downloading_image('https://api.nasa.gov/EPIC/archive/natural/{0}/{1}/{2}/png/{3}.png?api_key={4}'.format(date_of_image[0], date_of_image[1], date_of_image[2], img['image'], NASA_API), '{1}/{0}.jpg'.format(img['image']), directory)
+    for picture in EPIC_pictures:
+        date_of_image = split_date_of_image(picture)
+        year = date_of_image[0]
+        month = date_of_image[1]
+        day = date_of_image[2]
+        picture_url = 'https://api.nasa.gov/EPIC/archive/natural/{0}/{1}/{2}/png/{3}.png'.format(year, month, day, picture['image'])
+        path_for_downloading = os.path.join('{}'.format(directory),'{}.jpg'.format(picture['image']))
+        general_functions.downloading_image(picture_url, path_for_downloading)
 
 if __name__ == '__main__':
+    load_dotenv()   
+    NASA_API_KEY = os.environ['NASA_API_KEY']
     parser = argparse.ArgumentParser()
     parser.add_argument('directory', help='directory, where will placed pictures', default='images', nargs='?')
     args = parser.parse_args()
+
     
-    creating_folder(args.directory)
-    image_list = fetch_EPIC_pictures()
-    downloading_EPIC_pictures(image_list, args.directory)
+    general_functions.creating_folder(args.directory)
+    fetch_EPIC_pictures(args.directory)

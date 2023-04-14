@@ -1,6 +1,7 @@
 import os
 import requests
 from urllib.parse import urlparse
+from dotenv import load_dotenv
 
 
 def creating_folder(dir_name):
@@ -8,7 +9,12 @@ def creating_folder(dir_name):
             os.makedirs(dir_name)
 
 def downloading_image(image_url, path):
-    response = requests.get(image_url)
+    load_dotenv()
+    NASA_API_KEY = os.environ['NASA_API_KEY']
+    payload={
+        'api_key' : NASA_API_KEY
+    }
+    response = requests.get(image_url, params=payload)
     response.raise_for_status()
     with open(path, 'wb') as file:
         file.write(response.content)
