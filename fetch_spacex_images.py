@@ -23,6 +23,6 @@ if __name__ == '__main__':
     parser.add_argument('id', help='id of the spacex launch, if you wil not specify, you will take photos of last launch', default='latest', nargs='?')
     parser.add_argument('directory', help='directory, where will placed pictures', default='images', nargs='?')
     
-    general_functions.creating_folder(args.directory)
     args = parser.parse_args()
+    general_functions.creating_folder(args.directory)
     fetch_spacex_launches(args.id, args.directory)

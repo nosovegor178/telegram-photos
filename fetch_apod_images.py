@@ -18,7 +18,7 @@ def fetch_pictures_of_the_day(directory):
     apod_images = response.json()
 
     for image in apod_images:
-        general_functions.downloading_image(image['url'], os.path.join('{}'.format(directory),'nasa_apod_{}.jpg'.format(apod_images.index(image)))
+        general_functions.downloading_image(image['url'], os.path.join('{}'.format(directory),'nasa_apod_{}.jpg'.format(apod_images.index(image))))
 
 if __name__ == '__main__':
     load_dotenv()
