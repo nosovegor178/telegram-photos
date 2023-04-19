@@ -5,9 +5,9 @@ import general_functions
 import argparse
 
 
-def fetch_pictures_of_the_day(directory):
+def fetch_pictures_of_the_day(directory, nasa_api_key):
     payload={
-        'api_key' : NASA_API_KEY,
+        'api_key' : nasa_api_key,
         'count' : 30
     }
     
@@ -18,14 +18,14 @@ def fetch_pictures_of_the_day(directory):
     apod_images = response.json()
 
     for image in apod_images:
-        general_functions.downloading_image(image['url'], os.path.join('{}'.format(directory),'nasa_apod_{}.jpg'.format(apod_images.index(image))))
+        general_functions.download_image(image['url'], nasa_api_key, os.path.join('{}'.format(directory),'nasa_apod_{}.jpg'.format(apod_images.index(image))))
 
 if __name__ == '__main__':
     load_dotenv()
-    NASA_API_KEY = os.environ['NASA_API_KEY']
+    nasa_api_key = os.environ['NASA_API_KEY']
     parser = argparse.ArgumentParser()
     parser.add_argument('directory', help='directory, where will placed pictures', default='images', nargs='?')
     args = parser.parse_args()
     
-    general_functions.creating_folder(args.directory)
-    pictures_list = fetch_pictures_of_the_day(args.directory)
+    os.makedirs(args.directory, exist_ok=True)
+    fetch_pictures_of_the_day(args.directory, nasa_api_key)
