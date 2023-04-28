@@ -45,9 +45,8 @@ python fetch_EPIC_photos.py images,
 ```
 а для скрипта fetch_spacex_photos.py так:
 ```
-python fetch_spacex_photos.py chat_id images 5eb87d47ffd86e000604b38a,
+python fetch_spacex_photos.py images 5eb87d47ffd86e000604b38a,
 ```
-где chat_id - это id чата.
 
 Примечание:
 У некоторых запусков может не быть снимков. Если их нет, то на экран выведется ошибка, однако по id запуска, указанного в примере, снимки есть, поэтому можно использоавть его.

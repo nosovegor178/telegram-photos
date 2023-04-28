@@ -4,10 +4,7 @@ from urllib.parse import urlparse
 from dotenv import load_dotenv
 
 
-def download_image(image_url, nasa_api_key, path):
-    payload = {
-        'api_key': nasa_api_key
-    }
+def download_image(image_url, payload, path):
     response = requests.get(image_url, params=payload)
     response.raise_for_status()
     with open(path, 'wb') as file:
