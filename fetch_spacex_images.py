@@ -13,7 +13,7 @@ def fetch_spacex_launches(launch_id, dir_name):
     links_of_photos = response.json()['links']['flickr']['original']
     for picture_number, picture_counter in enumerate(links_of_photos):
         general_functions.download_image(
-            links_of_photos[links_of_photos.index(picture_counter)],
+            links_of_photos[picture_number],
             payload,
             os.path.join(dir_name,
                          'spacex_{}.jpg'.format(picture_number)))
