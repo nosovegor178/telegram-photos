@@ -1,7 +1,6 @@
 import os
 import requests
 from urllib.parse import urlparse
-from dotenv import load_dotenv
 
 
 def download_image(image_url, payload, path):
@@ -16,7 +15,3 @@ def get_image_expansion(image_path):
     basename = os.path.splitext(path_to_image[1])
     extension = urlparse(basename[1])
     return extension[2]
-
-
-if __name__ == '__main__':
-    load_dotenv()

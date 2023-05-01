@@ -2,26 +2,24 @@ import general_functions
 import argparse
 import os
 import requests
-from dotenv import load_dotenv
 
 
 def fetch_spacex_launches(launch_id, dir_name):
+    payload = {
+    }
     url = "https://api.spacexdata.com/v5/launches/{}".format(launch_id)
     response = requests.get(url)
     response.raise_for_status()
     links_of_photos = response.json()['links']['flickr']['original']
-    for picture_counter in links_of_photos:
+    for picture_number, picture_counter in enumerate(links_of_photos):
         general_functions.download_image(
             links_of_photos[links_of_photos.index(picture_counter)],
-            nasa_api_key,
+            payload,
             os.path.join(dir_name,
-                         'spacex_{}.jpg'.format(
-                            links_of_photos.index(picture_counter))))
+                         'spacex_{}.jpg'.format(picture_number)))
 
 
 if __name__ == '__main__':
-    load_dotenv()
-    nasa_api_key = os.environ['NASA_API_KEY']
     parser = argparse.ArgumentParser()
     parser.add_argument(
         'id',

@@ -15,10 +15,9 @@ def fetch_pictures_of_the_day(directory, nasa_api_key):
     response = requests.get(url, params=payload)
     response.raise_for_status()
     apod_images = response.json()
-    for image in apod_images:
+    for image_number, image in enumerate(apod_images):
         path_to_image = os.path.join(directory,
-                                     'nasa_apod_{}.jpg'.format(
-                                        apod_images.index(image)))
+                                     'nasa_apod_{}.jpg'.format(image_number))
         general_functions.download_image(image['url'],
                                          payload,
                                          path_to_image)
